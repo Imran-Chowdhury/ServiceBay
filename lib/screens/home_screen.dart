@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/auth_controller.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -11,7 +11,7 @@ class HomeScreen extends ConsumerWidget {
     AuthState stateController = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('${stateController.user?.displayName ?? 'User'} (${stateController.user?.email ?? 'unknown'})'),
+        title: Text('${stateController.name?? 'User'} (${stateController.role ?? 'unknown'})'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

@@ -7,14 +7,23 @@ final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
 });
 
 class AuthState {
-  final User? user;
+  // remove user and manually write name, role and email
+  final String? name;
+  final String? role;
+  final String? email;
+  // final User? user;
   final bool isLoading;
 
-  AuthState({this.user, this.isLoading = false});
+  // AuthState({this.user, this.isLoading = false});
+  AuthState({this.name, this.email, this.role, this.isLoading = false});
 
-  AuthState copyWith({User? user, bool? isLoading}) {
+  // AuthState copyWith({User? user, bool? isLoading}) {
+  AuthState copyWith({String? name, String? role, String? email, bool? isLoading}) {
     return AuthState(
-      user: user ?? this.user,
+      // user: user ?? this.user,
+      name: name ?? this.name,
+      role: role ?? this.role,
+      email: email ?? this.email,
       isLoading: isLoading ?? this.isLoading,
     );
   }
@@ -48,7 +57,8 @@ class AuthController extends StateNotifier<AuthState> {
           'email': email,
           'role': role,
         });
-        state = state.copyWith(user: user, isLoading: false);
+        // state = state.copyWith(user: user, isLoading: false);
+        state = state.copyWith(isLoading: false);
       }
     } catch (e) {
       state = state.copyWith(isLoading: false);
@@ -58,14 +68,32 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<void> signIn(String email, String password) async {
     state = state.copyWith(isLoading: true);
+    String currentUserName = '';
+    String currentUserRole = '';
+    String currentUserEmail = '';
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      final user = FirebaseAuth.instance.currentUser;
-      // state = state.copyWith(user: userCredential.user, isLoading: false);
-      state = state.copyWith(user: user, isLoading: false);
+      final currentUser = auth.currentUser;
+
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users')
+          .doc(currentUser?.uid)
+          .get();
+
+
+      if (userDoc.exists) {
+        // Get additional user info like name and role
+       currentUserName = userDoc['name'];
+       currentUserRole = userDoc['role'];
+       currentUserEmail = userDoc['email'];
+      }
+
+
+
+      // state = state.copyWith(user: currentUser, isLoading: false);
+      state = state.copyWith(name: currentUserName, email: currentUserEmail, role: currentUserRole, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false);
       throw Exception('Failed to sign in: $e');
@@ -74,6 +102,7 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<void> signOut() async {
     await auth.signOut();
-    state = state.copyWith(user: null);
+    // state = state.copyWith(user: null);
+    state = state.copyWith(name: null, email: null, role: null);
   }
 }
