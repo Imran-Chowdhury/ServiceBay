@@ -11,11 +11,11 @@ class AuthState {
   final String? name;
   final String? role;
   final String? email;
-  // final User? user;
+  // final String? uid;
   final bool isLoading;
 
   // AuthState({this.user, this.isLoading = false});
-  AuthState({this.name, this.email, this.role, this.isLoading = false});
+  AuthState({this.name, this.email, this.role,  this.isLoading = false});
 
   // AuthState copyWith({User? user, bool? isLoading}) {
   AuthState copyWith({String? name, String? role, String? email, bool? isLoading}) {
@@ -24,6 +24,7 @@ class AuthState {
       name: name ?? this.name,
       role: role ?? this.role,
       email: email ?? this.email,
+      // uid: uid?? this.uid,
       isLoading: isLoading ?? this.isLoading,
     );
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_bay/screens/booking_screen.dart';
 import 'package:service_bay/screens/home_screen.dart';
 import 'package:service_bay/screens/sign_in_screen.dart';
 import 'package:service_bay/screens/sign_up_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/signIn': (context) => SignInScreen(),
         '/signUp': (context) => SignUpScreen(),
         '/home': (context) => const HomeScreen(),
+        '/book':(context) => const BookingScreen(),
       },
     );
   }

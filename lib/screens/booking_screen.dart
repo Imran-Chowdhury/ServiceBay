@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 import '../controllers/booking_controller.dart';
+import '../controllers/mechanic_controller.dart';
 
 class BookingScreen extends ConsumerStatefulWidget {
   const BookingScreen({Key? key}) : super(key: key);
@@ -152,17 +153,55 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               SizedBox(height: 16.0),
 
               // Mechanic Dropdown
-              mechanicsList.when(
-                data: (mechanics) {
+              // mechanicsList.when(
+              //   data: (mechanics) {
+              //     return DropdownButtonFormField<String>(
+              //       value: _selectedMechanic,
+              //       hint: Text('Select Mechanic'),
+              //       items: mechanics.map((mechanic) {
+              //         return DropdownMenuItem(
+              //           value: mechanic['name'],
+              //           child: Text(mechanic['name']),
+              //         );
+              //       }).toList(),
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _selectedMechanic = value;
+              //         });
+              //       },
+              //       validator: (value) => value == null ? 'Select a mechanic' : null,
+              //     );
+              //   },
+              //   loading: () => CircularProgressIndicator(),
+              //   error: (err, stack) => Text('Error fetching mechanics'),
+              // ),
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('mechanic').snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(); // Show loading indicator
+                  }
+
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Text('No mechanics available');
+                  }
+
+                  // Map snapshot data to dropdown items
+                  List<DropdownMenuItem<String>> mechanicsItems = snapshot.data!.docs.map((doc) {
+                    return DropdownMenuItem<String>(
+                      value: doc.id, // Assign the mechanic's UID
+                      child: Text(doc['name'] as String), // Show mechanic's name
+                    );
+                  }).toList();
+
                   return DropdownButtonFormField<String>(
                     value: _selectedMechanic,
-                    hint: Text('Select Mechanic'),
-                    items: mechanics.map((mechanic) {
-                      return DropdownMenuItem(
-                        value: mechanic['name'],
-                        child: Text(mechanic['name']),
-                      );
-                    }).toList(),
+                    hint: const Text('Select Mechanic'),
+                    items: mechanicsItems,
                     onChanged: (value) {
                       setState(() {
                         _selectedMechanic = value;
@@ -171,8 +210,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     validator: (value) => value == null ? 'Select a mechanic' : null,
                   );
                 },
-                loading: () => CircularProgressIndicator(),
-                error: (err, stack) => Text('Error fetching mechanics'),
               ),
 
               SizedBox(height: 16.0),

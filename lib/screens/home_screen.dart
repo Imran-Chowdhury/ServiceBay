@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/auth_controller.dart';
+import 'booking_screen.dart';
 
 
 class HomeScreen extends ConsumerWidget {
@@ -23,7 +24,14 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: Center(
-        child: Text('Welcome to Home!'),
+        child: GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BookingScreen()),
+              );
+            },
+            child: const Text('Tap to add bookins!')),
       ),
     );
   }
