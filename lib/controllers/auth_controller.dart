@@ -52,12 +52,28 @@ class AuthController extends StateNotifier<AuthState> {
 
 
       if (user != null) {
-        await fireStore.collection('users').doc(user.uid).set({
-          'name': name,
-          'email': email,
-          'role': role,
-        });
+        // await fireStore.collection('users').doc(user.uid).set({
+        //   'name': name,
+        //   'email': email,
+        //   'role': role,
+        // });
         // state = state.copyWith(user: user, isLoading: false);
+
+        if (role == 'mechanic') {
+          // Save user data in the `users-mechanic` collection
+          await fireStore.collection('mechanic').doc(user.uid).set({
+            'name': name,
+            'email': email,
+            'role': role,
+          });
+        } else if (role == 'admin') {
+          // Save user data in the `users-admin` collection
+          await fireStore.collection('admin').doc(user.uid).set({
+            'name': name,
+            'email': email,
+            'role': role,
+          });
+        }
         state = state.copyWith(isLoading: false);
       }
     } catch (e) {
@@ -76,19 +92,34 @@ class AuthController extends StateNotifier<AuthState> {
         email: email,
         password: password,
       );
+      // print(userCredential.user?.uid);
       final currentUser = auth.currentUser;
+      // print(currentUser?.uid);
 
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users')
+      DocumentSnapshot adminDoc = await FirebaseFirestore.instance
+          .collection('admin')
           .doc(currentUser?.uid)
           .get();
 
+      if(adminDoc.exists){
+        currentUserName = adminDoc['name'];
+        currentUserRole = adminDoc['role'];
+        currentUserEmail = adminDoc['email'];
+      }else{
+        DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection('mechanic')
+            .doc(currentUser?.uid)
+            .get();
 
-      if (userDoc.exists) {
-        // Get additional user info like name and role
-       currentUserName = userDoc['name'];
-       currentUserRole = userDoc['role'];
-       currentUserEmail = userDoc['email'];
+
+        if (mechaDoc.exists) {
+          // Get additional user info like name and role
+          currentUserName = mechaDoc['name'];
+          currentUserRole = mechaDoc['role'];
+          currentUserEmail = mechaDoc['email'];
+        }
       }
+
+
 
 
 
