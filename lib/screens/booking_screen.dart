@@ -30,7 +30,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   final _startDateTimeController = TextEditingController();
   final _endDateTimeController = TextEditingController();
 
-  String? _selectedMechanic; // Mechanic dropdown value
+   String? _selectedMechanic; // Mechanic dropdown value
 
   @override
   void dispose() {
@@ -55,20 +55,24 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
     if (pickedDate != null) {
-      TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
 
-      if (pickedTime != null) {
-        DateTime fullDateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
-        controller.text = DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
-      }
+      setState(() {
+        controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+      // TimeOfDay? pickedTime = await showTimePicker(
+      //   context: context,
+      //   initialTime: TimeOfDay.now(),
+      // );
+      //
+      // if (pickedTime != null) {
+      //   DateTime fullDateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
+      //   controller.text = DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
+      // }
     }
   }
 
@@ -152,29 +156,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
               SizedBox(height: 16.0),
 
-              // Mechanic Dropdown
-              // mechanicsList.when(
-              //   data: (mechanics) {
-              //     return DropdownButtonFormField<String>(
-              //       value: _selectedMechanic,
-              //       hint: Text('Select Mechanic'),
-              //       items: mechanics.map((mechanic) {
-              //         return DropdownMenuItem(
-              //           value: mechanic['name'],
-              //           child: Text(mechanic['name']),
-              //         );
-              //       }).toList(),
-              //       onChanged: (value) {
-              //         setState(() {
-              //           _selectedMechanic = value;
-              //         });
-              //       },
-              //       validator: (value) => value == null ? 'Select a mechanic' : null,
-              //     );
-              //   },
-              //   loading: () => CircularProgressIndicator(),
-              //   error: (err, stack) => Text('Error fetching mechanics'),
-              // ),
+
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('mechanic').snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -211,6 +193,44 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                   );
                 },
               ),
+              // StreamBuilder<QuerySnapshot>(
+              //   stream: FirebaseFirestore.instance.collection('mechanic').snapshots(),
+              //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const CircularProgressIndicator(); // Show loading indicator
+              //     }
+              //
+              //     if (snapshot.hasError) {
+              //       return Text('Error: ${snapshot.error}');
+              //     }
+              //
+              //     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              //       return const Text('No mechanics available');
+              //     }
+              //
+              //     List<DropdownMenuItem<String>> mechanicsItems = snapshot.data!.docs.map((doc) {
+              //       print(doc);
+              //       return DropdownMenuItem<String>(
+              //         value:'${doc.id}_${doc['name']}',
+              //         child: Text(doc['name']),
+              //       );
+              //     }).toList();
+              //
+              //     return DropdownButtonFormField<String>(
+              //       value: combined.split('_')[] ,
+              //       hint: const Text('Select Mechanic'),
+              //       items: mechanicsItems,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _selectedMechanic = value;
+              //          print( _selectedMechanic!['name']);
+              //           print( _selectedMechanic!['uid']);
+              //         });
+              //       },
+              //       validator: (value) => value == null ? 'Select a mechanic' : null,
+              //     );
+              //   },
+              // ),
 
               SizedBox(height: 16.0),
 
@@ -230,7 +250,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                       bookingTitle: _bookingTitleController.text,
                       startDateTime: _startDateTimeController.text,
                       endDateTime: _endDateTimeController.text,
-                      mechanicName: _selectedMechanic!,
+                      mechanicUid: _selectedMechanic!,     // Mechanic UID
                     );
                   }
                 },

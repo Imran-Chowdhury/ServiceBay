@@ -19,16 +19,29 @@ class BookingController extends StateNotifier<bool> {
     required String bookingTitle,
     required String startDateTime,
     required String endDateTime,
-    required String mechanicName,
+    // required String mechanicName,
+    required String mechanicUid
   }) async {
     try {
+      String mechanicName = '';
       state = true; // Set loading state
+      final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-      // Firestore reference
-      CollectionReference bookings = FirebaseFirestore.instance.collection('bookings');
+      DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection('mechanic')
+          .doc(mechanicUid)
+          .get();
+      if (mechaDoc.exists) {
+        // Get additional user info like name and role
+        mechanicName = mechaDoc['name'];
+      }
 
-      // Add booking to Firestore
-      await bookings.add({
+      DocumentReference<Map<String, dynamic>> bookingsRef = fireStore
+          .collection('bookings')       // Main collection
+          .doc(mechanicUid)               // Mechanic UID document
+          .collection('jobs').doc(bookingTitle);        // Subcollection 'bookings'
+
+      // Add a new booking document to the 'bookings' subcollection
+      await bookingsRef.set({
         'carMake': carMake,
         'carModel': carModel,
         'carYear': carYear,
@@ -40,7 +53,32 @@ class BookingController extends StateNotifier<bool> {
         'startDateTime': startDateTime,
         'endDateTime': endDateTime,
         'mechanicName': mechanicName,
+        'mechanicUid': mechanicUid,
+        // 'createdAt': FieldValue.serverTimestamp(),  // Timestamp for when the booking was created
       });
+
+      // Reference to the mechanic's subcollection 'bookings'
+      // CollectionReference<Map<String, dynamic>> bookingsRef = fireStore
+      //     .collection('bookings')       // Main collection
+      //     .doc(mechanicUid)               // Mechanic UID document
+      //     .collection('jobs');        // Subcollection 'bookings'
+      //
+      // // Add a new booking document to the 'bookings' subcollection
+      // await bookingsRef.add({
+      //   'carMake': carMake,
+      //   'carModel': carModel,
+      //   'carYear': carYear,
+      //   'carPlate': carPlate,
+      //   'customerName': customerName,
+      //   'customerPhone': customerPhone,
+      //   'customerEmail': customerEmail,
+      //   'bookingTitle': bookingTitle,
+      //   'startDateTime': startDateTime,
+      //   'endDateTime': endDateTime,
+      //   'mechanicName': mechanicName,
+      //   'mechanicUid': mechanicUid,
+      //   // 'createdAt': FieldValue.serverTimestamp(),  // Timestamp for when the booking was created
+      // });
 
       state = false; // Set loading state back to false
     } catch (e) {

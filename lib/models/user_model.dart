@@ -1,33 +1,23 @@
-// class UserModel {
-//   String? uid;         // Unique ID from Firebase
-//   String name;         // User's name
-//   String email;        // User's email
-//   String role;         // User's role (admin or mechanic)
-//
-//   UserModel({
-//     this.uid,
-//     required this.name,
-//     required this.email,
-//     required this.role,
-//   });
-//
-//   // Convert a UserModel object to a map (for saving in Firestore)
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'uid': uid,
-//       'name': name,
-//       'email': email,
-//       'role': role,
-//     };
-//   }
-//
-//   // Create a UserModel object from a map (for fetching from Firestore)
-//   factory UserModel.fromMap(Map<String, dynamic> map) {
-//     return UserModel(
-//       uid: map['uid'],
-//       name: map['name'],
-//       email: map['email'],
-//       role: map['role'],
-//     );
-//   }
-// }
+class AuthState {
+  // remove user and manually write name, role and email
+  final String? name;
+  final String? role;
+  final String? email;
+  // final String? uid;
+  final bool isLoading;
+
+  // AuthState({this.user, this.isLoading = false});
+  AuthState({this.name, this.email, this.role,  this.isLoading = false});
+
+  // AuthState copyWith({User? user, bool? isLoading}) {
+  AuthState copyWith({String? name, String? role, String? email, bool? isLoading}) {
+    return AuthState(
+      // user: user ?? this.user,
+      name: name ?? this.name,
+      role: role ?? this.role,
+      email: email ?? this.email,
+      // uid: uid?? this.uid,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
+}
