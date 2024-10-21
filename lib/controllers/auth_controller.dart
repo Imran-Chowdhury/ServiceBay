@@ -120,9 +120,6 @@ class AuthController extends StateNotifier<AuthState> {
       }
 
 
-
-
-
       // state = state.copyWith(user: currentUser, isLoading: false);
       state = state.copyWith(name: currentUserName, email: currentUserEmail, role: currentUserRole, isLoading: false);
     } catch (e) {
