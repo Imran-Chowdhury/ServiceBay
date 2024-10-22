@@ -61,18 +61,18 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
     if (pickedDate != null) {
 
-      setState(() {
-        controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      });
-      // TimeOfDay? pickedTime = await showTimePicker(
-      //   context: context,
-      //   initialTime: TimeOfDay.now(),
-      // );
-      //
-      // if (pickedTime != null) {
-      //   DateTime fullDateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
-      //   controller.text = DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
-      // }
+      // setState(() {
+      //   controller.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      // });
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        DateTime fullDateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
+        controller.text = DateFormat('yyyy-MM-dd HH:mm').format(fullDateTime);
+      }
     }
   }
 

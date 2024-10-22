@@ -40,6 +40,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   firebase_auth: ^5.3.1
   intl: ^0.19.0
+  syncfusion_flutter_calendar: ^27.1.55
 
 dev_dependencies:
   flutter_test:

@@ -57,28 +57,7 @@ class BookingController extends StateNotifier<bool> {
         // 'createdAt': FieldValue.serverTimestamp(),  // Timestamp for when the booking was created
       });
 
-      // Reference to the mechanic's subcollection 'bookings'
-      // CollectionReference<Map<String, dynamic>> bookingsRef = fireStore
-      //     .collection('bookings')       // Main collection
-      //     .doc(mechanicUid)               // Mechanic UID document
-      //     .collection('jobs');        // Subcollection 'bookings'
-      //
-      // // Add a new booking document to the 'bookings' subcollection
-      // await bookingsRef.add({
-      //   'carMake': carMake,
-      //   'carModel': carModel,
-      //   'carYear': carYear,
-      //   'carPlate': carPlate,
-      //   'customerName': customerName,
-      //   'customerPhone': customerPhone,
-      //   'customerEmail': customerEmail,
-      //   'bookingTitle': bookingTitle,
-      //   'startDateTime': startDateTime,
-      //   'endDateTime': endDateTime,
-      //   'mechanicName': mechanicName,
-      //   'mechanicUid': mechanicUid,
-      //   // 'createdAt': FieldValue.serverTimestamp(),  // Timestamp for when the booking was created
-      // });
+
 
       state = false; // Set loading state back to false
     } catch (e) {
