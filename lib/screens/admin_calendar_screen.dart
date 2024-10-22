@@ -7,22 +7,25 @@ import '../controllers/job_controller.dart';
 class AdminCalendarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Admin Calendar'),
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: getAdminBookings(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
 
 
           final appointments = getBookingsFromSnapshot(snapshot.data!);
-          print('The bookins of admin is $appointments');
-          print('The length of the appointment is $appointments.length');
+
 
           return SfCalendar(
+            // key: ValueKey(v),
             onTap: (CalendarTapDetails details) {
               if (details.appointments != null && details.appointments!.isNotEmpty) {
                 final Appointment appointment = details.appointments![0];
@@ -31,6 +34,7 @@ class AdminCalendarScreen extends StatelessWidget {
                 final List<String> notes = appointment.notes!.split('\n');
                 final phone = notes[0].split(': ')[1]; // Extract phone
                 final email = notes[1].split(': ')[1]; // Extract email
+                final customerName = notes[3].split(': ')[1];
 
                 showDialog(
                   context: context,
@@ -40,7 +44,7 @@ class AdminCalendarScreen extends StatelessWidget {
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Customer Name: ${appointment.location}'),
+                          Text('Customer Name: $customerName'),
                           Text('Phone: $phone'),
                           Text('Email: $email'),
                           Text('Car: ${notes[2]}'), // Car make and model
