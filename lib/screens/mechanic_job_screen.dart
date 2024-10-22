@@ -14,19 +14,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-// CalendarController to manage calendar view state
-final calendarControllerProvider = StateNotifierProvider<CalendarController, CalendarView>((ref) {
-  return CalendarController();
-});
-
-class CalendarController extends StateNotifier<CalendarView> {
-  CalendarController() : super(CalendarView.month);
-
-  // Method to change the calendar view
-  void changeCalendarView(CalendarView view) {
-    state = view; // Updates the calendar view state
-  }
-}
+// // CalendarController to manage calendar view state
+// final calendarControllerProvider = StateNotifierProvider<CalendarController, CalendarView>((ref) {
+//   return CalendarController();
+// });
+//
+// class CalendarController extends StateNotifier<CalendarView> {
+//   CalendarController() : super(CalendarView.month);
+//
+//   // Method to change the calendar view
+//   void changeCalendarView(CalendarView view) {
+//     state = view; // Updates the calendar view state
+//   }
+// }
 
 class MechanicCalendarScreen extends ConsumerStatefulWidget {
   final String mechanicUid;
@@ -53,7 +53,7 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
             icon: Icon(Icons.filter_list),
             onChanged: (CalendarView? newView) {
               if (newView != null) {
-                viewController.changeCalendarView(newView); // Update state when a new view is selected
+                viewController.changeCalenderView(newView); // Update state when a new view is selected
               }
             },
             items: const [

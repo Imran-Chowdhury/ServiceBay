@@ -15,6 +15,9 @@ Stream<QuerySnapshot<Map<String, dynamic>>> getMechanicBookings(String mechanicU
 
 //Fetching for admins
 Stream<QuerySnapshot<Map<String, dynamic>>> getAdminBookings() {
+  print(FirebaseFirestore.instance
+      .collectionGroup('jobs')
+      .get());
   return FirebaseFirestore.instance
       .collectionGroup('jobs')
       .snapshots(); // Fetches all jobs across all mechanics
@@ -31,8 +34,7 @@ List<Appointment> getBookingsFromSnapshot(QuerySnapshot snapshot) {
     final customerPhone = data['customerPhone'] ?? 'Unknown Phone';
     final customerEmail = data['customerEmail'] ?? 'Unknown Email';
     final bookingTitle = data['bookingTitle'] ?? 'No Title';
-    // final startDateTime = (data['startDateTime'] as Timestamp).toDate();
-    // final endDateTime = (data['endDateTime'] as Timestamp).toDate();
+
 
     // Store additional information in notes field or use a custom data model
     final notes = 'Phone: $customerPhone\nEmail: $customerEmail\nCar: $carMake $carModel';

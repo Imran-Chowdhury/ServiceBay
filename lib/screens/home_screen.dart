@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
+import 'admin_calendar_screen.dart';
 import 'booking_screen.dart';
 import 'mechanic_job_screen.dart';
 
@@ -40,12 +41,22 @@ class HomeScreen extends ConsumerWidget {
           Center(
             child: GestureDetector(
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MechanicCalendarScreen(mechanicUid: stateController.uid!,),),
-                  );
+                 if(stateController.role=='mechanic') {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) =>
+                           MechanicCalendarScreen(
+                             mechanicUid: stateController.uid!,),),
+                   );
+                 }else{
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) =>
+                       AdminCalendarScreen(),),
+                   );
+                 }
                 },
                 child: const Text('Tap to see calendar view!')),
           ),
