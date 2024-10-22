@@ -33,12 +33,6 @@ class AuthController extends StateNotifier<AuthState> {
 
 
       if (user != null) {
-        // await fireStore.collection('users').doc(user.uid).set({
-        //   'name': name,
-        //   'email': email,
-        //   'role': role,
-        // });
-        // state = state.copyWith(user: user, isLoading: false);
 
         if (role == 'mechanic') {
           // Save user data in the `users-mechanic` collection
@@ -46,6 +40,7 @@ class AuthController extends StateNotifier<AuthState> {
             'name': name,
             'email': email,
             'role': role,
+            'uid': user.uid
           });
         } else if (role == 'admin') {
           // Save user data in the `users-admin` collection
@@ -53,6 +48,7 @@ class AuthController extends StateNotifier<AuthState> {
             'name': name,
             'email': email,
             'role': role,
+            'uid': user.uid
           });
         }
         state = state.copyWith(isLoading: false);
@@ -68,6 +64,7 @@ class AuthController extends StateNotifier<AuthState> {
     String currentUserName = '';
     String currentUserRole = '';
     String currentUserEmail = '';
+    String currentUserUid = '';
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
@@ -86,6 +83,7 @@ class AuthController extends StateNotifier<AuthState> {
         currentUserName = adminDoc['name'];
         currentUserRole = adminDoc['role'];
         currentUserEmail = adminDoc['email'];
+        currentUserUid = adminDoc['uid'];
       }else{
         DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection('mechanic')
             .doc(currentUser?.uid)
@@ -97,12 +95,13 @@ class AuthController extends StateNotifier<AuthState> {
           currentUserName = mechaDoc['name'];
           currentUserRole = mechaDoc['role'];
           currentUserEmail = mechaDoc['email'];
+          currentUserUid = mechaDoc['uid'];
         }
       }
 
 
       // state = state.copyWith(user: currentUser, isLoading: false);
-      state = state.copyWith(name: currentUserName, email: currentUserEmail, role: currentUserRole, isLoading: false);
+      state = state.copyWith(name: currentUserName, email: currentUserEmail,uid: currentUserUid, role: currentUserRole, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false);
       throw Exception('Failed to sign in: $e');
