@@ -24,11 +24,25 @@ Stream<QuerySnapshot<Map<String, dynamic>>> getAdminBookings() {
 List<Appointment> getBookingsFromSnapshot(QuerySnapshot snapshot) {
   return snapshot.docs.map((doc) {
     final data = doc.data() as Map<String, dynamic>;
+    // Extract all the relevant booking fields from Firestore document
+    final carMake = data['carMake'] ?? 'Unknown Make';
+    final carModel = data['carModel'] ?? 'Unknown Model';
+    final customerName = data['customerName'] ?? 'Unknown Customer';
+    final customerPhone = data['customerPhone'] ?? 'Unknown Phone';
+    final customerEmail = data['customerEmail'] ?? 'Unknown Email';
+    final bookingTitle = data['bookingTitle'] ?? 'No Title';
+    // final startDateTime = (data['startDateTime'] as Timestamp).toDate();
+    // final endDateTime = (data['endDateTime'] as Timestamp).toDate();
+
+    // Store additional information in notes field or use a custom data model
+    final notes = 'Phone: $customerPhone\nEmail: $customerEmail\nCar: $carMake $carModel';
+
     return Appointment(
       startTime: DateTime.parse(data['startDateTime']),
       endTime: DateTime.parse(data['endDateTime']),
       subject: data['bookingTitle'] ?? 'No Title',
-      notes: '${data['carMake']} ${data['carModel']}',
+      // notes: '${data['carMake']} ${data['carModel']}',
+      notes: notes,
     );
   }).toList();
 }
