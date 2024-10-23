@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_bay/screens/mechanic_home_screen.dart';
 import 'package:service_bay/widgets/custom_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 import '../widgets/triangle_clipper.dart';
 import 'admin_calendar_screen.dart';
 import 'booking_screen.dart';
-import 'mechanic_job_screen.dart';
+import 'mechanic_calendar_screen.dart';
 
 
 
 
 
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -25,9 +24,9 @@ class HomeScreen extends ConsumerWidget {
     double height = size.height;
     double width = size.width;
 
-    AuthState stateController = ref.watch(authControllerProvider);
+    AuthState authState = ref.watch(authControllerProvider);
 
-    return Scaffold(
+    return authState.role=='admin' ? Scaffold(
       // floatingActionButton: FloatingActionButton(onPressed: () {  },),
       backgroundColor: const Color(0xFFffffff),
       appBar: AppBar(
@@ -48,16 +47,16 @@ class HomeScreen extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (stateController.role == 'mechanic')
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Image.asset(
-                    'assets/images/mechanic.png',
-                    height: height * 0.4,
-                    width: width * 0.8,
-                  ),
-                )
-              else if (stateController.role == 'admin')
+              // if (stateController.role == 'mechanic')
+              //   Align(
+              //     alignment: Alignment.topCenter,
+              //     child: Image.asset(
+              //       'assets/images/mechanic.png',
+              //       height: height * 0.4,
+              //       width: width * 0.8,
+              //     ),
+              //   )
+              // else if (stateController.role == 'admin')
                 Align(
                   alignment: Alignment.topCenter,
                   child: Image.asset(
@@ -69,7 +68,7 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: EdgeInsets.only(left: width * 0.03),
                 child: Text(
-                  'Hello ${stateController.name?? 'User'}',
+                  'Hello ${authState.name?? 'User'}',
                   style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -79,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: EdgeInsets.only(left: width * 0.03),
                 child: Text(
-                  ' ${stateController.role?? 'Role'}',
+                  ' ${authState.role?? 'Role'}',
                 //   // stateController.role!.toUpperCase() ,
                   style: const TextStyle(
                     fontSize: 18,
@@ -99,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
               clipper: TriangleClipper(),
               child: Container(
                 color: Colors.red, // Change the color of the triangle
-                height: height * 0.55, // Adjust triangle height
+                height: height * 0.5, // Adjust triangle height
                 width: width *0.9,   // Adjust triangle width
               ),
             ),
@@ -138,13 +137,13 @@ class HomeScreen extends ConsumerWidget {
 
 
                 onTap: (){
-                  if(stateController.role=='mechanic') {
+                  if(authState.role=='mechanic') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
                             MechanicCalendarScreen(
-                              mechanicUid: stateController.uid!,),),
+                              mechanicUid: authState.uid!,),),
                     );
                   }else{
                     Navigator.push(
@@ -201,7 +200,7 @@ class HomeScreen extends ConsumerWidget {
 
         ],
       ),
-    );
+    ):const MechanicHomeScreen();
   }
 }
 

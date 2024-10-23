@@ -21,7 +21,7 @@ class _AdminCalendarScreenState extends ConsumerState<AdminCalendarScreen> {
     return Scaffold(
       // drawer: const CustomDrawer(),
       appBar: AppBar(
-        title: Text('Admin Calendar'),
+        title: const Text('Admin Calendar'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: getAdminBookings(), // Replace this with the actual Firestore stream fetching
@@ -50,16 +50,11 @@ class _AdminCalendarScreenState extends ConsumerState<AdminCalendarScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text(appointment.subject),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Customer Name: $customerName'),
-                          Text('Phone: $phone'),
-                          Text('Email: $email'),
-                          Text('Car: ${notes[2]}'), // Car make and model
-                          Text('Booking Start: ${appointment.startTime}'),
-                          Text('Booking End: ${appointment.endTime}'),
-                        ],
+                      content: details.appointments!.isEmpty? Center(child: const Text('No bookings!'))
+                      :ListView.builder(
+                          itemBuilder: (context,index){
+                            return details.appointments![index];
+                          },
                       ),
                       actions: [
                         TextButton(
@@ -72,6 +67,34 @@ class _AdminCalendarScreenState extends ConsumerState<AdminCalendarScreen> {
                     );
                   },
                 );
+
+                // showDialog(
+                //   context: context,
+                //   builder: (BuildContext context) {
+                //     return AlertDialog(
+                //       title: Text(appointment.subject),
+                //       content: Column(
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: [
+                //           Text('Customer Name: $customerName'),
+                //           Text('Phone: $phone'),
+                //           Text('Email: $email'),
+                //           Text('Car: ${notes[2]}'), // Car make and model
+                //           Text('Booking Start: ${appointment.startTime}'),
+                //           Text('Booking End: ${appointment.endTime}'),
+                //         ],
+                //       ),
+                //       actions: [
+                //         TextButton(
+                //           onPressed: () {
+                //             Navigator.of(context).pop();
+                //           },
+                //           child: Text('Close'),
+                //         ),
+                //       ],
+                //     );
+                //   },
+                // );
               }
             },
             backgroundColor: Colors.white,
