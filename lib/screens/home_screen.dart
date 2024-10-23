@@ -98,7 +98,7 @@ class HomeScreen extends ConsumerWidget {
               clipper: TriangleClipper(),
               child: Container(
                 color: Colors.red, // Change the color of the triangle
-                height: height * 0.45, // Adjust triangle height
+                height: height * 0.55, // Adjust triangle height
                 width: width *0.9,   // Adjust triangle width
               ),
             ),
@@ -158,7 +158,7 @@ class HomeScreen extends ConsumerWidget {
                 child: const CustomTile(
                   icon: Icon(Icons.add,
                     color: Colors.black,
-                    // size: 80,
+                    size: 50,
                   ),
                   // color: Color(0xFFff8f81),
                   color: Color(0xFFF5F5DC),//beige
@@ -177,7 +177,7 @@ class HomeScreen extends ConsumerWidget {
                 },
                 child: const CustomTile(
                     icon: Icon(Icons.calendar_today,
-                      // size: 80,
+                      size: 50,
                       color: Colors.black,),
                   color: Color(0xFFD3D3D3), //light grey
                   // color: Color(0xFFF5F5DC),//beige
@@ -190,6 +190,33 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
           ),
+
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Align to the center
+              children: [
+                Text(
+                  'Powered by Ichiban Auto Limited ',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '®', // Registered Trademark symbol
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontFeatures: [FontFeature.superscripts()], // Optional: Make the ® sign superscript
+                  ),
+                ),
+
+              ],
+            ),
+          )
 
 
         ],
