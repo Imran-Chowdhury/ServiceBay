@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_bay/widgets/custom_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 import 'admin_calendar_screen.dart';
@@ -87,6 +88,12 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
 
+          Positioned(
+            top: height*.5,
+              left: width*.1,
+              child: CustomTile()),
+
+
           // Triangle-shaped container in the bottom-right corner
           Positioned(
             bottom: 0,
@@ -100,14 +107,13 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   bottom: 0,
-          //   right: 0,
-          //   child: CustomPaint(
-          //     size: Size(width, height), // size of the screen
-          //     painter: TrianglePainter(),
-          //   ),
-          // ),
+
+          Positioned(
+              top: height*.5,
+              right: width*.1,
+              child: CustomTile()),
+
+
         ],
       ),
     );
