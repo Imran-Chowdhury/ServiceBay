@@ -33,7 +33,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     });
   }
 
-  void _signUp() async {
+  void signUp() async {
     if (_formKey.currentState!.validate()) {
       if (_password != _confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -47,6 +47,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           email: _email,
           password: _password,
           role: _role,
+          context: context
         );
         // Navigator.pushNamed(context, '/signIn');
       } catch (e) {
@@ -111,7 +112,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ],
               ),
               ElevatedButton(
-                onPressed: _signUp,
+                onPressed: signUp,
                 child: Text('Sign Up'),
               ),
             ],

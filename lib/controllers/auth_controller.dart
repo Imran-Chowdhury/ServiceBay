@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/user_model.dart';
+import '../screens/sign_in_screen.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>((ref) {
   return AuthController();
@@ -21,6 +24,7 @@ class AuthController extends StateNotifier<AuthState> {
     required String email,
     required String password,
     required String role,
+    required BuildContext context,
   }) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -52,6 +56,12 @@ class AuthController extends StateNotifier<AuthState> {
           });
         }
         state = state.copyWith(isLoading: false);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignInScreen(),
+          ),
+        );
       }
     } catch (e) {
       state = state.copyWith(isLoading: false);
