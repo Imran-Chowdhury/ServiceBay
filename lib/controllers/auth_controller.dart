@@ -56,6 +56,11 @@ class AuthController extends StateNotifier<AuthState> {
           });
         }
         state = state.copyWith(isLoading: false);
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Successfully signed up'),
+        ));
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -65,7 +70,10 @@ class AuthController extends StateNotifier<AuthState> {
       }
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      throw Exception('Failed to sign up: $e');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Failed to sign up'),
+      ));
+      // throw Exception('Failed to sign up: $e');
     }
   }
 

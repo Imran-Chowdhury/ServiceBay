@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/auth_controller.dart';
+import '../utils/validator.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_textfield.dart';
 
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -10,11 +13,16 @@ class SignUpScreen extends ConsumerStatefulWidget {
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
-  String _password = '';
-  String _confirmPassword = '';
+  // String _name = '';
+  // String _email = '';
+  // String _password = '';
+  // String _confirmPassword = '';
   String _role = 'admin'; // Default role
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
 
   bool _isAdmin = true;
   bool _isMechanic = false;
@@ -35,19 +43,25 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   void signUp() async {
     if (_formKey.currentState!.validate()) {
-      if (_password != _confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      // if (_password != _confirmPassword) {
+      if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Passwords do not match!'),
         ));
         return;
       }
       try {
         await ref.read(authControllerProvider.notifier).signUp(
-          name: _name,
-          email: _email,
-          password: _password,
-          role: _role,
-          context: context
+          // name: _name,
+          // email: _email,
+          // password: _password,
+          // role: _role,
+          // context: context
+            name: nameController.text.trim(),
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+            role: _role,
+            context: context
         );
         // Navigator.pushNamed(context, '/signIn');
       } catch (e) {
@@ -62,58 +76,119 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider).isLoading;
 
+    Size size = MediaQuery.sizeOf(context);
+    double height = size.height;
+    double width  = size.width;
+
     return Scaffold(
-      appBar: AppBar(title: Text('Sign Up')),
+      backgroundColor: Color(0xFFffffff),
+      // appBar: AppBar(title: Text('Sign Up')),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+        child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                onChanged: (value) => _name = value,
-                validator: (value) =>
-                value!.isEmpty ? 'Name is required' : null,
+
+              SizedBox(
+                height: height*.01,
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                onChanged: (value) => _email = value,
-                validator: (value) =>
-                value!.isEmpty ? 'Email is required' : null,
+
+              Image.asset(
+                'assets/images/signup.png', // Your image path
+                height: height * 0.4,
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                onChanged: (value) => _password = value,
-                obscureText: true,
-                validator: (value) =>
-                value!.length < 6 ? 'Password too short' : null,
+
+              const Text(
+                'SIGN UP',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Confirm Password'),
-                onChanged: (value) => _confirmPassword = value,
-                obscureText: true,
+
+              const Text(
+                'Welcome to Ichiban Auto Limited',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: _isAdmin,
-                    onChanged: (_) => _toggleRole('admin'),
-                  ),
-                  Text('Admin'),
-                  Checkbox(
-                    value: _isMechanic,
-                    onChanged: (_) => _toggleRole('mechanic'),
-                  ),
-                  Text('Mechanic'),
-                ],
-              ),
-              ElevatedButton(
-                onPressed: signUp,
-                child: Text('Sign Up'),
+              SizedBox(height: height * 0.03),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+
+
+
+                    CustomTextField(
+                      controller: nameController,
+                      labelText: 'Name',
+                      validate: Validator.personNameValidator,
+                    ),
+                    SizedBox(height: height * 0.03),
+
+                    CustomTextField(
+                      controller:emailController,
+                      labelText: 'Email',
+                      validate: Validator.emailValidator,
+                    ),
+                    SizedBox(height: height * 0.03),
+                    CustomTextField(
+                      controller: passwordController,
+                      labelText: 'Password',
+                      validate: Validator.passwordValidator,
+                    ),
+                    SizedBox(height: height * 0.03),
+
+                    CustomTextField(
+                      controller: confirmPasswordController,
+                      labelText: 'Confirm Password',
+                      validate: Validator.confirmPasswordValidator,
+                    ),
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          activeColor:  const Color(0xFFed2f31),
+                          value: _isAdmin,
+                          onChanged: (_) => _toggleRole('admin'),
+                        ),
+                        const Text('Admin'),
+                        Checkbox(
+                          activeColor:  const Color(0xFFed2f31),
+                          value: _isMechanic,
+                          onChanged: (_) => _toggleRole('mechanic'),
+                        ),
+                        const Text('Mechanic'),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: width * 0.2, right: width * 0.2),
+                      child: CustomButton(
+                        screenHeight: height,
+                        buttonName: 'Sign Up',
+                        // buttonColor: const Color(0xFFffc801),
+                        buttonColor: const Color(0xFF007a61),
+                        icon: const Icon(
+                          // size: 20,
+                          Icons.app_registration_sharp,
+                          color: Colors.white,
+                        ),
+                        onpressed: () {
+                          signUp();
+
+                        },
+
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

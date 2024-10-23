@@ -1,13 +1,13 @@
 class Validator{
 
 
-  // static String? personNameValidator(String? value){
-  //
-  //   if (value == null || value.isEmpty) {
-  //     return 'Please enter a name!';
-  //   }
-  //   return null;
-  // }
+  static String? personNameValidator(String? value){
+
+    if (value == null || value.isEmpty) {
+      return 'Please enter a name!';
+    }
+    return null;
+  }
 
   static String? emailValidator(String? value){
 
@@ -22,8 +22,13 @@ class Validator{
     if (value == null || value.isEmpty) {
       return 'Please enter a password!';
     }
+    if(value.length < 6 ){
+      return'Password too short';
+    }
     return null;
   }
+
+
 
   static String? confirmPasswordValidator(String? value){
 
