@@ -1,36 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_bay/widgets/custom_drawer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../controllers/calendar_controller.dart';
 import '../controllers/job_controller.dart';
+class AdminCalendarScreen extends ConsumerStatefulWidget {
+  const AdminCalendarScreen({Key? key}) : super(key: key);
 
-class AdminCalendarScreen extends StatelessWidget {
+  @override
+  _AdminCalendarScreenState createState() => _AdminCalendarScreenState();
+}
+
+class _AdminCalendarScreenState extends ConsumerState<AdminCalendarScreen> {
   @override
   Widget build(BuildContext context) {
+    final viewState = ref.watch(calendarControllerProvider); // Listen to state changes for rebuilding the UI
 
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text('Admin Calendar'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: getAdminBookings(),
+        stream: getAdminBookings(), // Replace this with the actual Firestore stream fetching
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
 
-
-
-          final appointments = getBookingsFromSnapshot(snapshot.data!);
-
+          final appointments = getBookingsFromSnapshot(snapshot.data!); // Process snapshot data
 
           return SfCalendar(
-            // key: ValueKey(v),
+            key: ValueKey(viewState),
+            view: viewState, // Calendar view is dynamically updated based on state
             onTap: (CalendarTapDetails details) {
               if (details.appointments != null && details.appointments!.isNotEmpty) {
                 final Appointment appointment = details.appointments![0];
 
-                // Split the notes to extract additional information
+                // Extract additional information from appointment notes
                 final List<String> notes = appointment.notes!.split('\n');
                 final phone = notes[0].split(': ')[1]; // Extract phone
                 final email = notes[1].split(': ')[1]; // Extract email
@@ -65,37 +74,31 @@ class AdminCalendarScreen extends StatelessWidget {
                 );
               }
             },
-            view: CalendarView.month,
-            // dataSource: BookingDataSource(appointments),
-            backgroundColor: Colors.white, // Change the background color to white
+            backgroundColor: Colors.white,
             dataSource: BookingDataSource(appointments),
             headerStyle: const CalendarHeaderStyle(
-              backgroundColor: Colors.red, // Change header background color
+              backgroundColor: Colors.red,
               textStyle: TextStyle(
-                color: Colors.white, // Header text color
+                color: Colors.white,
                 fontSize: 20,
               ),
             ),
             viewHeaderStyle: const ViewHeaderStyle(
-              backgroundColor: Colors.blue, // Change the view header background
+              backgroundColor: Colors.blue,
               dayTextStyle: TextStyle(
-                color: Colors.white, // Day text color
+                color: Colors.white,
                 fontSize: 16,
               ),
             ),
             monthViewSettings: const MonthViewSettings(
               appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
               agendaStyle: AgendaStyle(
-                backgroundColor: Colors.white, // Agenda background color
+                backgroundColor: Colors.white,
                 appointmentTextStyle: TextStyle(
-                  color: Colors.black, // Appointment text color
+                  color: Colors.black,
                 ),
               ),
             ),
-            // monthViewSettings: MonthViewSettings(
-            //   appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-            //   // showAgenda: true,
-            // ),
           );
         },
       ),

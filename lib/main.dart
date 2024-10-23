@@ -7,6 +7,7 @@ import 'package:service_bay/screens/booking_screen.dart';
 import 'package:service_bay/screens/home_screen.dart';
 import 'package:service_bay/screens/sign_in_screen.dart';
 import 'package:service_bay/screens/sign_up_screen.dart';
+import 'package:service_bay/screens/splash_screen.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +26,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/signIn',
+      initialRoute: '/splash',
       // initialRoute: '/signUp',
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/signIn': (context) => SignInScreen(),
         '/signUp': (context) => SignUpScreen(),
         '/home': (context) => const HomeScreen(),

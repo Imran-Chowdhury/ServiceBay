@@ -27,7 +27,7 @@ class MechanicCalendarScreen extends ConsumerStatefulWidget {
 class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    final viewController = ref.watch(calendarControllerProvider.notifier); // Access the controller for state changes
+
     final viewState = ref.watch(calendarControllerProvider); // Listen to state changes for rebuilding the UI
 
     return Scaffold(
@@ -35,32 +35,7 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
       appBar: AppBar(
 
         title: Text('Mechanic Calendar'),
-        // actions: [
-        //   // Dropdown to select the Calendar view (Day, Week, Month)
-        //   DropdownButton<CalendarView>(
-        //     value: viewState, // Bind the dropdown value to the current state
-        //     icon: Icon(Icons.filter_list),
-        //     onChanged: (CalendarView? newView) {
-        //       if (newView != null) {
-        //         viewController.changeCalenderView(newView); // Update state when a new view is selected
-        //       }
-        //     },
-        //     items: const [
-        //       DropdownMenuItem(
-        //         value: CalendarView.day,
-        //         child: Text('Day View'),
-        //       ),
-        //       DropdownMenuItem(
-        //         value: CalendarView.week,
-        //         child: Text('Week View'),
-        //       ),
-        //       DropdownMenuItem(
-        //         value: CalendarView.month,
-        //         child: Text('Month View'),
-        //       ),
-        //     ],
-        //   ),
-        // ],
+
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: getMechanicBookings(widget.mechanicUid), // Fetch mechanic bookings from Firestore
