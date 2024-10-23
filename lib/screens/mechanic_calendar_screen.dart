@@ -56,14 +56,25 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
                 final appointments = details.appointments!; // All appointments for that day
 
                 // Show a dialog with a list of appointments
+                // showDialog(context: context, builder: (BuildContext context){
+                //   return  Container(
+                //     height: 30,
+                //     width: 30,
+                //     color: Colors.red,
+                //   );
+                // });
+
+
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text('Appointments on ${details.date}'),
-                      content: SizedBox(
-                        height: 200, // Adjust height for the list
+                      content: Container(
+                        height: 300,
+                        width: 300,
                         child: ListView.builder(
+                          shrinkWrap: true,
                           itemCount: appointments.length,
                           itemBuilder: (context, index) {
                             final Appointment appointment = appointments[index];
@@ -71,7 +82,7 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
                               title: Text(appointment.subject), // Show appointment title
                               onTap: () {
                                 // Navigate to the detail screen with the selected appointment
-                                Navigator.of(context).pop(); // Close the dialog
+                                // Navigator.of(context).pop(); // Close the dialog
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -97,7 +108,7 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
                   },
                 );
               }
-            }
+            },
 
             // onTap: (CalendarTapDetails details) {
             //   if (details.appointments != null && details.appointments!.isNotEmpty) {
@@ -165,6 +176,41 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+
+class AppointmentDetailScreen extends StatelessWidget {
+  final Appointment appointment;
+
+  AppointmentDetailScreen({required this.appointment});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> notes = appointment.notes!.split('\n');
+    final phone = notes[0].split(': ')[1];
+    final email = notes[1].split(': ')[1];
+    final customerName = notes[3].split(': ')[1];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appointment.subject),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Customer Name: $customerName'),
+            Text('Phone: $phone'),
+            Text('Email: $email'),
+            Text('Car: ${notes[2]}'),
+            Text('Booking Start: ${appointment.startTime}'),
+            Text('Booking End: ${appointment.endTime}'),
+          ],
+        ),
       ),
     );
   }
