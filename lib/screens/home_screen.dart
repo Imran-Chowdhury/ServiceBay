@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:service_bay/widgets/custom_tile.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
+import '../widgets/triangle_clipper.dart';
 import 'admin_calendar_screen.dart';
 import 'booking_screen.dart';
 import 'mechanic_job_screen.dart';
@@ -27,6 +28,7 @@ class HomeScreen extends ConsumerWidget {
     AuthState stateController = ref.watch(authControllerProvider);
 
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(onPressed: () {  },),
       backgroundColor: const Color(0xFFffffff),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -89,52 +91,110 @@ class HomeScreen extends ConsumerWidget {
           ),
 
           Positioned(
-            top: height*.5,
-              left: width*.1,
-              child: CustomTile()),
-
-
-          // Triangle-shaped container in the bottom-right corner
-          Positioned(
             bottom: 0,
             right: 0,
+            // left: 0,
             child: ClipPath(
               clipper: TriangleClipper(),
               child: Container(
                 color: Colors.red, // Change the color of the triangle
-                height: height * 0.5, // Adjust triangle height
-                width: width * 0.7,   // Adjust triangle width
+                height: height * 0.45, // Adjust triangle height
+                width: width *0.9,   // Adjust triangle width
               ),
             ),
           ),
 
+          // Positioned(
+          //   top: height*.5,
+          //   // left: width*.01,
+          //   child: Row(
+          //     children: [
+          //       GestureDetector(
+          //         onTap: (){
+          //           print('Book');
+          //         },
+          //         child: const CustomTile(
+          //           icon: Icon(Icons.add,
+          //             color: Colors.black,
+          //             // size: 80,
+          //           ),
+          //           // color: Color(0xFFff8f81),
+          //           color: Color(0xFFF5F5DC),//beige
+          //           tileName: 'Reserve',
+          //         ),
+          //       ),
+          //
+          //       // GestureDetector(
+          //       //   onTap: (){
+          //       //     print('View');
+          //       //   },
+          //       //   child: const CustomTile(
+          //       //     icon: Icon(Icons.calendar_today,size: 80,
+          //       //       color: Colors.black,),
+          //       //     color: Color(0xFFD3D3D3), //light grey
+          //       //     // color: Color(0xFFF5F5DC),//beige
+          //       //     // color: Color(0xFF7d85b3),
+          //       //     // color: Colors.white,
+          //       //
+          //       //
+          //       //     tileName: 'Bookings',
+          //       //
+          //       //   ),
+          //       // ),
+          //
+          //     ],
+          //   ),
+          // ),
+
           Positioned(
-              top: height*.5,
-              right: width*.1,
-              child: CustomTile()),
+            top: height*.55,
+              // left: width*.1,
+            right: width*.1,
+
+              child: GestureDetector(
+                onTap: (){
+                  print('Reserve');
+                },
+                child: const CustomTile(
+                  icon: Icon(Icons.add,
+                    color: Colors.black,
+                    // size: 80,
+                  ),
+                  // color: Color(0xFFff8f81),
+                  color: Color(0xFFF5F5DC),//beige
+                  tileName: 'Reserve',
+                ),
+              ),
+          ),
+
+          Positioned(
+              top: height*.7,
+              // right: width*.2,
+              left: width*.2,
+              child: GestureDetector(
+                onTap: (){
+                  print('View');
+                },
+                child: const CustomTile(
+                    icon: Icon(Icons.calendar_today,
+                      // size: 80,
+                      color: Colors.black,),
+                  color: Color(0xFFD3D3D3), //light grey
+                  // color: Color(0xFFF5F5DC),//beige
+                  // color: Color(0xFF7d85b3),
+                  // color: Colors.white,
+
+
+                  tileName: 'Bookings',
+
+                ),
+              ),
+          ),
 
 
         ],
       ),
     );
-  }
-}
-
-class TriangleClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final Path path = Path();
-    path.moveTo(0, size.height); // Start at bottom-left corner
-    path.lineTo(size.width, size.height); // Bottom-right corner
-    path.lineTo(size.width, 0); // Top-right corner
-    path.close(); // Draw back to the start
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
   }
 }
 
