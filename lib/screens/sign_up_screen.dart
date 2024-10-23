@@ -150,7 +150,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       labelText: 'Confirm Password',
                       validate: Validator.confirmPasswordValidator,
                     ),
-                    
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
