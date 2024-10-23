@@ -19,7 +19,7 @@ class _AdminCalendarScreenState extends ConsumerState<AdminCalendarScreen> {
     final viewState = ref.watch(calendarControllerProvider); // Listen to state changes for rebuilding the UI
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      // drawer: const CustomDrawer(),
       appBar: AppBar(
         title: Text('Admin Calendar'),
       ),

@@ -69,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: EdgeInsets.only(left: width * 0.03),
                 child: Text(
-                  'Hello ${stateController.name!}',
+                  'Hello ${stateController.name?? 'User'}',
                   style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -79,13 +79,14 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: EdgeInsets.only(left: width * 0.03),
                 child: Text(
-                  stateController.role!.toUpperCase(),
+                  ' ${stateController.role?? 'Role'}',
+                //   // stateController.role!.toUpperCase() ,
                   style: const TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
-                  ),
-                ),
+                     fontWeight: FontWeight.bold,
+                     color: Colors.grey,
+                   ),
+                 ),
               ),
             ],
           ),
@@ -104,47 +105,6 @@ class HomeScreen extends ConsumerWidget {
             ),
           ),
 
-          // Positioned(
-          //   top: height*.5,
-          //   // left: width*.01,
-          //   child: Row(
-          //     children: [
-          //       GestureDetector(
-          //         onTap: (){
-          //           print('Book');
-          //         },
-          //         child: const CustomTile(
-          //           icon: Icon(Icons.add,
-          //             color: Colors.black,
-          //             // size: 80,
-          //           ),
-          //           // color: Color(0xFFff8f81),
-          //           color: Color(0xFFF5F5DC),//beige
-          //           tileName: 'Reserve',
-          //         ),
-          //       ),
-          //
-          //       // GestureDetector(
-          //       //   onTap: (){
-          //       //     print('View');
-          //       //   },
-          //       //   child: const CustomTile(
-          //       //     icon: Icon(Icons.calendar_today,size: 80,
-          //       //       color: Colors.black,),
-          //       //     color: Color(0xFFD3D3D3), //light grey
-          //       //     // color: Color(0xFFF5F5DC),//beige
-          //       //     // color: Color(0xFF7d85b3),
-          //       //     // color: Colors.white,
-          //       //
-          //       //
-          //       //     tileName: 'Bookings',
-          //       //
-          //       //   ),
-          //       // ),
-          //
-          //     ],
-          //   ),
-          // ),
 
           Positioned(
             top: height*.55,
@@ -153,7 +113,10 @@ class HomeScreen extends ConsumerWidget {
 
               child: GestureDetector(
                 onTap: (){
-                  print('Reserve');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const BookingScreen()),
+                  );
                 },
                 child: const CustomTile(
                   icon: Icon(Icons.add,
@@ -172,8 +135,25 @@ class HomeScreen extends ConsumerWidget {
               // right: width*.2,
               left: width*.2,
               child: GestureDetector(
+
+
                 onTap: (){
-                  print('View');
+                  if(stateController.role=='mechanic') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MechanicCalendarScreen(
+                              mechanicUid: stateController.uid!,),),
+                    );
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AdminCalendarScreen(),),
+                    );
+                  }
                 },
                 child: const CustomTile(
                     icon: Icon(Icons.calendar_today,
@@ -305,38 +285,38 @@ class HomeScreen extends ConsumerWidget {
 //
 //
 //
-//           // Center(
-//           //   child: GestureDetector(
-//           //       onTap: (){
-//           //         Navigator.push(
-//           //           context,
-//           //           MaterialPageRoute(builder: (context) => const BookingScreen()),
-//           //         );
-//           //       },
-//           //       child: const Text('Tap to add bookins!')),
-//           // ),
-//           // Center(
-//           //   child: GestureDetector(
-//           //       onTap: (){
-//           //        if(stateController.role=='mechanic') {
-//           //          Navigator.push(
-//           //            context,
-//           //            MaterialPageRoute(
-//           //              builder: (context) =>
-//           //                  MechanicCalendarScreen(
-//           //                    mechanicUid: stateController.uid!,),),
-//           //          );
-//           //        }else{
-//           //          Navigator.push(
-//           //            context,
-//           //            MaterialPageRoute(
-//           //              builder: (context) =>
-//           //              AdminCalendarScreen(),),
-//           //          );
-//           //        }
-//           //       },
-//           //       child: const Text('Tap to see calendar view!')),
-//           // ),
+//           Center(
+//             child: GestureDetector(
+//                 onTap: (){
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(builder: (context) => const BookingScreen()),
+//                   );
+//                 },
+//                 child: const Text('Tap to add bookins!')),
+//           ),
+//           Center(
+//             child: GestureDetector(
+//                 onTap: (){
+//                  if(stateController.role=='mechanic') {
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) =>
+//                            MechanicCalendarScreen(
+//                              mechanicUid: stateController.uid!,),),
+//                    );
+//                  }else{
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+//                        builder: (context) =>
+//                        AdminCalendarScreen(),),
+//                    );
+//                  }
+//                 },
+//                 child: const Text('Tap to see calendar view!')),
+//           ),
 //         ],
 //       ),
 //     );

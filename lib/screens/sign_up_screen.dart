@@ -82,7 +82,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return Scaffold(
       backgroundColor: Color(0xFFffffff),
-      // appBar: AppBar(title: Text('Sign Up')),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFffffff),),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(

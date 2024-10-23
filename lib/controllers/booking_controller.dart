@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:service_bay/screens/home_screen.dart';
 
 final bookingControllerProvider = StateNotifierProvider<BookingController, bool>((ref) {
   return BookingController();
@@ -20,12 +22,27 @@ class BookingController extends StateNotifier<bool> {
     required String startDateTime,
     required String endDateTime,
     // required String mechanicName,
-    required String mechanicUid
+    required String mechanicUid,
+    required BuildContext context
   }) async {
     try {
       String mechanicName = '';
       state = true; // Set loading state
       final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+      // print('a print before booking');
+      // print(mechanicUid);
+      // print(mechanicName);
+      // print(carMake);
+      // print(carModel);
+      // print(carYear);
+      // print(carPlate);
+      // print(customerName);
+      // print(customerPhone);
+      // print(customerEmail);
+      // print(bookingTitle);
+      // print(startDateTime);
+      // print(endDateTime);
+
 
       DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection('mechanic')
           .doc(mechanicUid)
@@ -57,11 +74,20 @@ class BookingController extends StateNotifier<bool> {
         // 'createdAt': FieldValue.serverTimestamp(),  // Timestamp for when the booking was created
       });
 
-
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Booked!'),
+      ));
 
       state = false; // Set loading state back to false
+
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context)=>const HomeScreen()));
+
     } catch (e) {
       state = false;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Fail to Book!'),
+      ));
       print('Error creating booking: $e');
     }
   }
