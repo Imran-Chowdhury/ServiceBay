@@ -124,22 +124,22 @@ class MechanicHomeScreen extends ConsumerWidget {
 
 
               onTap: (){
-                if(authState.role=='mechanic') {
+                // if(authState.role=='mechanic') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          MechanicCalendarScreen(
-                            mechanicUid: authState.uid!,),),
+                          CalendarScreen(authState.uid!, role: authState.role,),),
                   );
-                }else{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AdminCalendarScreen(),),
-                  );
-                }
+                // }
+                // else{
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) =>
+                //           AdminCalendarScreen(),),
+                //   );
+                // }
               },
               child: const CustomTile(
                 icon: Icon(Icons.engineering,

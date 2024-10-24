@@ -137,22 +137,17 @@ class HomeScreen extends ConsumerWidget {
 
 
                 onTap: (){
-                  if(authState.role=='mechanic') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MechanicCalendarScreen(
-                              mechanicUid: authState.uid!,),),
-                    );
-                  }else{
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            AdminCalendarScreen(),),
-                    );
-                  }
+                  // if(authState.role=='mechanic') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CalendarScreen(
+                            authState.uid!,
+                            role: authState.role,
+                          ),
+                    ),
+                  );
                 },
                 child: const CustomTile(
                     icon: Icon(Icons.calendar_today,

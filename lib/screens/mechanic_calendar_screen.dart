@@ -15,30 +15,36 @@ import '../widgets/custom_drawer.dart';
 
 
 
-class MechanicCalendarScreen extends ConsumerStatefulWidget {
+class CalendarScreen extends ConsumerStatefulWidget {
   final String mechanicUid;
+  final String? role;
 
-  MechanicCalendarScreen({required this.mechanicUid});
+  CalendarScreen(this.mechanicUid, {required this.role});
 
   @override
-  _MechanicCalendarScreenState createState() => _MechanicCalendarScreenState();
+  _CalendarScreenState createState() => _CalendarScreenState();
 }
 
-class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen> {
+class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    double height = size.height;
+    double width = size.width;
+
 
     final viewState = ref.watch(calendarControllerProvider); // Listen to state changes for rebuilding the UI
 
     return Scaffold(
       // drawer: const CustomDrawer(),
       appBar: AppBar(
+        backgroundColor: const Color(0xFFffffff),
 
-        title: Text('Mechanic Calendar'),
+        title: widget.role == 'mechanic'? const Text('Mechanic Calendar'):Text('Admin Calendar'),
 
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: getMechanicBookings(widget.mechanicUid), // Fetch mechanic bookings from Firestore
+        stream: widget.role == 'mechanic'?getMechanicBookings(widget.mechanicUid):getAdminBookings(), // Fetch mechanic bookings from Firestore
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -71,8 +77,8 @@ class _MechanicCalendarScreenState extends ConsumerState<MechanicCalendarScreen>
                     return AlertDialog(
                       title: Text('Appointments on ${details.date}'),
                       content: Container(
-                        height: 300,
-                        width: 300,
+                        height: height*.4,
+                        width: width*.3,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: appointments.length,
