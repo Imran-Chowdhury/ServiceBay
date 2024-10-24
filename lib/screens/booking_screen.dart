@@ -79,6 +79,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     // final mechanicsList = ref.watch(mechanicsProvider);
@@ -88,184 +91,203 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     double width  = size.width;
 
     return Scaffold(
-      backgroundColor: Color(0xFFffffff),
+      backgroundColor: const Color(0xFFf0f0f0),
       appBar: AppBar(
-        backgroundColor:  Color(0xFFffffff),
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
+        backgroundColor:  Color(0XFFd71e23),
         // title: Text('Create Booking'),
       ),
       body: bookingState?
           const Center(child: CircularProgressIndicator()):
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      SingleChildScrollView(
+        child: Stack(
+          children: [
+            Container(
+                height: height*.3,
+                width: double.infinity,
 
-            children: [
+                decoration: BoxDecoration(
+                    color: Color(0XFFd71e23),
+                    borderRadius: BorderRadius.only(bottomLeft:  Radius.circular(width*.09), bottomRight: Radius.circular(width*.09))
+                )
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-              Align(
-                alignment: Alignment.topCenter,
-                child: Image.asset(
-                  'assets/images/booking.png', // Your image path
-                  height: height * 0.3,
+              children: [
+
+
+
+                // Align(
+                //   alignment: Alignment.topCenter,
+                //   child: Image.asset(
+                //     'assets/images/booking.png', // Your image path
+                //     height: height * 0.3,
+                //   ),
+                // ),
+                SizedBox(height: height * 0.06),
+                Text(
+                  ' Booking Form',
+                  style: TextStyle(
+                    fontSize: width *.099,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
                 ),
-              ),
-              SizedBox(height: height * 0.02),
-              const Text(
-                'Booking Form',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: height * 0.03),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    // Car Details
-                    CustomTextField(
-                      controller: _bookingTitleController,
-                      labelText: 'Booking Title',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _carMakeController,
-                      labelText: 'Car Make',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _carModelController,
-                      labelText: 'Car Model',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _carYearController,
-                      labelText: 'Car Year',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _carPlateController,
-                      labelText: 'Registration Plate',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _customerNameController,
-                      labelText: 'Customer Name',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _customerPhoneController,
-                      labelText: 'Customer Phone',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _customerEmailController,
-                      labelText: 'Customer Email',
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _startDateTimeController,
-                      labelText: 'Start Date & Time',
-                      readOnly: true,
-                      onTap: () => _pickDateTime(context, _startDateTimeController),
-                      validate: BookingValidator.Validator,
-                    ),
-                    SizedBox(height: height * 0.02),
-                    CustomTextField(
-                      controller: _endDateTimeController,
-                      labelText: 'End Date & Time',
-                      readOnly: true,
-                      onTap: () => _pickDateTime(context, _endDateTimeController),
-                      validate: BookingValidator.Validator,
-                    ),
+                SizedBox(height: height * 0.03),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        // Car Details
+                        CustomTextField(
+                          controller: _bookingTitleController,
+                          labelText: 'Booking Title',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _carMakeController,
+                          labelText: 'Car Make',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _carModelController,
+                          labelText: 'Car Model',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _carYearController,
+                          labelText: 'Car Year',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _carPlateController,
+                          labelText: 'Registration Plate',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _customerNameController,
+                          labelText: 'Customer Name',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _customerPhoneController,
+                          labelText: 'Customer Phone',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _customerEmailController,
+                          labelText: 'Customer Email',
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _startDateTimeController,
+                          labelText: 'Start Date & Time',
+                          readOnly: true,
+                          onTap: () => _pickDateTime(context, _startDateTimeController),
+                          validate: BookingValidator.Validator,
+                        ),
+                        SizedBox(height: height * 0.02),
+                        CustomTextField(
+                          controller: _endDateTimeController,
+                          labelText: 'End Date & Time',
+                          readOnly: true,
+                          onTap: () => _pickDateTime(context, _endDateTimeController),
+                          validate: BookingValidator.Validator,
+                        ),
 
-                    StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('mechanic').snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        // if (snapshot.connectionState == ConnectionState.waiting) {
-                        //   return const CircularProgressIndicator(); // Show loading indicator
-                        // }
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection('mechanic').snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            // if (snapshot.connectionState == ConnectionState.waiting) {
+                            //   return const CircularProgressIndicator(); // Show loading indicator
+                            // }
 
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
+                            if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            }
 
-                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                          return const Text('No mechanics available');
-                        }
+                            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                              return const Text('No mechanics available');
+                            }
 
-                        // Map snapshot data to dropdown items
-                        List<DropdownMenuItem<String>> mechanicsItems = snapshot.data!.docs.map((doc) {
-                          return DropdownMenuItem<String>(
-                            value: doc.id, // Assign the mechanic's UID
-                            child: Text(doc['name'] as String), // Show mechanic's name
-                          );
-                        }).toList();
+                            // Map snapshot data to dropdown items
+                            List<DropdownMenuItem<String>> mechanicsItems = snapshot.data!.docs.map((doc) {
+                              return DropdownMenuItem<String>(
+                                value: doc.id, // Assign the mechanic's UID
+                                child: Text(doc['name'] as String), // Show mechanic's name
+                              );
+                            }).toList();
 
-                        return DropdownButtonFormField<String>(
-                          value: _selectedMechanic,
-                          hint: const Text('Select Mechanic'),
-                          items: mechanicsItems,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedMechanic = value;
-                            });
+                            return DropdownButtonFormField<String>(
+                              value: _selectedMechanic,
+                              hint: const Text('Select Mechanic'),
+                              items: mechanicsItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedMechanic = value;
+                                });
+                              },
+                              validator: (value) => value == null ? 'Select a mechanic' : null,
+                            );
                           },
-                          validator: (value) => value == null ? 'Select a mechanic' : null,
-                        );
-                      },
+                        ),
+
+
+                        SizedBox(height: height * 0.02),
+                        CustomButton(
+                          screenHeight: height,
+                          buttonName: 'Book',
+                          // buttonColor: const Color(0xFFffc801),
+                          buttonColor: const Color(0xFFed2f31),
+                          icon: const Icon(
+                            Icons.bookmark_add_outlined,
+                            color: Colors.white,
+                          ),
+                          onpressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              // print(_selectedMechanic!);
+                              // Call booking function
+                              ref.read(bookingControllerProvider.notifier).createBooking(
+                                  carMake: _carMakeController.text,
+                                  carModel: _carModelController.text,
+                                  carYear: _carYearController.text,
+                                  carPlate: _carPlateController.text,
+                                  customerName: _customerNameController.text,
+                                  customerPhone: _customerPhoneController.text,
+                                  customerEmail: _customerEmailController.text,
+                                  bookingTitle: _bookingTitleController.text,
+                                  startDateTime: _startDateTimeController.text,
+                                  endDateTime: _endDateTimeController.text,
+                                  mechanicUid: _selectedMechanic!,
+                                  context: context// Mechanic UID
+                              );
+                            }
+
+                          },
+
+
+                        ),
+
+                      ],
                     ),
-
-
-                    SizedBox(height: height * 0.02),
-                    CustomButton(
-                      screenHeight: height,
-                      buttonName: 'Book',
-                      // buttonColor: const Color(0xFFffc801),
-                      buttonColor: const Color(0xFFed2f31),
-                      icon: const Icon(
-                        Icons.bookmark_add_outlined,
-                        color: Colors.white,
-                      ),
-                      onpressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // print(_selectedMechanic!);
-                          // Call booking function
-                          ref.read(bookingControllerProvider.notifier).createBooking(
-                            carMake: _carMakeController.text,
-                            carModel: _carModelController.text,
-                            carYear: _carYearController.text,
-                            carPlate: _carPlateController.text,
-                            customerName: _customerNameController.text,
-                            customerPhone: _customerPhoneController.text,
-                            customerEmail: _customerEmailController.text,
-                            bookingTitle: _bookingTitleController.text,
-                            startDateTime: _startDateTimeController.text,
-                            endDateTime: _endDateTimeController.text,
-                            mechanicUid: _selectedMechanic!,
-                            context: context// Mechanic UID
-                          );
-                        }
-
-                      },
-
-
-                    ),
-
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
