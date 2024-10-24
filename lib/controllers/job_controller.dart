@@ -1,6 +1,7 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:service_bay/models/booking_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -68,6 +69,7 @@ List<Appointment> getBookingsFromSnapshot(QuerySnapshot snapshot) {
     // Start Time: ${booking.startDateTime.toString()}
     // End Time: ${booking.endDateTime.toString()}
     return Appointment(
+      color: Colors.grey,
       startTime: DateTime.parse(data['startDateTime']),
       endTime: DateTime.parse(data['endDateTime']),
       subject: booking.bookingTitle,
