@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180, // Matches the width of the TextFormField
+      // width: 180, // Matches the width of the TextFormField
       height: screenHeight * 0.07, // Match this value with the TextFormField's height
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
