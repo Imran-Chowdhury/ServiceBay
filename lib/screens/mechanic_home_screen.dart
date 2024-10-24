@@ -29,8 +29,8 @@ class MechanicHomeScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              await ref.read(authControllerProvider.notifier).signOut();
-              Navigator.pushReplacementNamed(context, '/signIn');
+              await ref.read(authControllerProvider.notifier).signOut(context);
+
             },
           ),
         ],

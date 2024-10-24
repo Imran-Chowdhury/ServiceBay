@@ -81,7 +81,7 @@ class BookingController extends StateNotifier<bool> {
       state = false; // Set loading state back to false
 
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context)=>const HomeScreen()));
+          MaterialPageRoute(builder: (context)=> HomeScreen()));
 
     } catch (e) {
       state = false;

@@ -23,12 +23,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   void signIn() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await ref.read(authControllerProvider.notifier).signIn(emailController.text.trim(), passwordController.text.trim());
+        await ref.read(authControllerProvider.notifier).signIn(emailController.text.trim(), passwordController.text.trim(),context);
         // await ref.read(authControllerProvider.notifier).signIn(email, password);
-        Navigator.pushNamed(context, '/home');
+
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.toString()),
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          // content: Text(e.toString()),
+
+          content: Text('Eikhan theke error'),
         ));
       }
     }

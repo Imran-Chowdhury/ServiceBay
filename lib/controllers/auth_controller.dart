@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_model.dart';
+import '../screens/home_screen.dart';
 import '../screens/sign_in_screen.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>((ref) {
@@ -37,7 +42,6 @@ class AuthController extends StateNotifier<AuthState> {
 
 
       if (user != null) {
-
         if (role == 'mechanic') {
           // Save user data in the `users-mechanic` collection
           await fireStore.collection('mechanic').doc(user.uid).set({
@@ -77,34 +81,49 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password,
+      BuildContext context) async {
     state = state.copyWith(isLoading: true);
     String currentUserName = '';
     String currentUserRole = '';
     String currentUserEmail = '';
     String currentUserUid = '';
+    Map<String,dynamic> store = {};
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       // print(userCredential.user?.uid);
-      final currentUser = auth.currentUser;
+     print('The uid from user cred ${ userCredential.user!.uid}');
+      // final currentUser = auth.currentUser;
       // print(currentUser?.uid);
 
       DocumentSnapshot adminDoc = await FirebaseFirestore.instance
           .collection('admin')
-          .doc(currentUser?.uid)
+          .doc(userCredential.user?.uid)
           .get();
 
-      if(adminDoc.exists){
+      if (adminDoc.exists) {
         currentUserName = adminDoc['name'];
         currentUserRole = adminDoc['role'];
         currentUserEmail = adminDoc['email'];
         currentUserUid = adminDoc['uid'];
-      }else{
-        DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection('mechanic')
-            .doc(currentUser?.uid)
+        print(currentUserName);
+        store['name'] = currentUserName;
+        store['email'] = currentUserEmail;
+        store['role'] = currentUserRole;
+        store['uid'] = currentUserUid;
+
+
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('profile', jsonEncode(store));
+      } else {
+        DocumentSnapshot mechaDoc = await FirebaseFirestore.instance.collection(
+            'mechanic')
+            .doc(userCredential.user?.uid)
             .get();
 
 
@@ -114,21 +133,92 @@ class AuthController extends StateNotifier<AuthState> {
           currentUserRole = mechaDoc['role'];
           currentUserEmail = mechaDoc['email'];
           currentUserUid = mechaDoc['uid'];
+
+          store['name'] = currentUserName;
+          store['email'] = currentUserEmail;
+          store['role'] = currentUserRole;
+          store['uid'] = currentUserUid;
+
+          await prefs.setString('profile', jsonEncode(store));
         }
       }
-
+      print(currentUser);
+        print(currentUserRole);
 
       // state = state.copyWith(user: currentUser, isLoading: false);
-      state = state.copyWith(name: currentUserName, email: currentUserEmail,uid: currentUserUid, role: currentUserRole, isLoading: false);
+      state = state.copyWith(name: currentUserName,
+          email: currentUserEmail,
+          uid: currentUserUid,
+          role: currentUserRole,
+          isLoading: false);
+      // Navigator.pushNamed(context, '/home');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      throw Exception('Failed to sign in: $e');
+      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //   content: Text(
+      //       'Failed to sign in! Please check your email and password'),
+      // ));
+      throw Exception(e.toString());
     }
   }
+  Future<void> currentUser(BuildContext context) async {
 
-  Future<void> signOut() async {
-    await auth.signOut();
-    // state = state.copyWith(user: null);
-    state = state.copyWith(name: null, email: null, role: null);
+    String currentUserName = '';
+    String currentUserRole = '';
+    String currentUserEmail = '';
+    String currentUserUid = '';
+
+   
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Try to get the stored profile data
+    String? profileJson = prefs.getString('profile');
+
+    if (profileJson != null) {
+
+      Map<String,dynamic> user = jsonDecode(profileJson) as Map<String, dynamic>;
+
+
+      currentUserName = user['name'];
+      currentUserUid  = user['uid'];
+      currentUserEmail = user['email'];
+      currentUserRole = user['role'];
+      print(currentUser);
+      print(currentUserRole);
+
+      // state = state.copyWith(user: currentUser, isLoading: false);
+      state = state.copyWith(name: currentUserName,
+          email: currentUserEmail,
+          uid: currentUserUid,
+          role: currentUserRole,
+          isLoading: false);
+      Navigator.pushReplacementNamed(context, '/home');
+    }else {
+      // No user signed in, navigate to SignInScreen
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => SignInScreen(),
+      ));
+    }
+
+
   }
+
+  Future<void> signOut(BuildContext context) async {
+    await auth.signOut();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+    state = state.copyWith(name: null, email: null, role: null);
+    Navigator.pushReplacementNamed(context, '/signIn');
+
+    // state = state.copyWith(user: null);
+
+  }
+
+
+
 }
+
+

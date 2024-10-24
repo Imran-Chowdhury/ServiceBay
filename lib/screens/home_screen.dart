@@ -18,6 +18,11 @@ import 'calendar_screen.dart';
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
+  // HomeScreen({this.name,this.role,this.uid});
+  // String? name;
+  // String? role;
+  // String? uid;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.sizeOf(context);
@@ -36,8 +41,8 @@ class HomeScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              await ref.read(authControllerProvider.notifier).signOut();
-              Navigator.pushReplacementNamed(context, '/signIn');
+              await ref.read(authControllerProvider.notifier).signOut(context);
+
             },
           ),
         ],
