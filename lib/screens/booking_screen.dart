@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 import '../controllers/booking_controller.dart';
-import '../controllers/mechanic_controller.dart';
+
 import '../utils/booking_validator.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';

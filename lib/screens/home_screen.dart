@@ -7,7 +7,7 @@ import '../models/user_model.dart';
 import '../widgets/triangle_clipper.dart';
 import 'admin_calendar_screen.dart';
 import 'booking_screen.dart';
-import 'mechanic_calendar_screen.dart';
+import 'calendar_screen.dart';
 
 
 

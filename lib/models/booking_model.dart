@@ -7,8 +7,8 @@ class Booking {
   final String customerPhone;
   final String customerEmail;
   final String bookingTitle;
-  final DateTime startDateTime;
-  final DateTime endDateTime;
+  final String startDateTime;
+  final String endDateTime;
   final String mechanicName;
   final String mechanicUid;
 
@@ -56,8 +56,10 @@ class Booking {
       customerPhone: map['customerPhone'],
       customerEmail: map['customerEmail'],
       bookingTitle: map['bookingTitle'],
-      startDateTime: DateTime.parse(map['startDateTime']),
-      endDateTime: DateTime.parse(map['endDateTime']),
+      // startDateTime: DateTime.parse(map['startDateTime']),
+      // endDateTime: DateTime.parse(map['endDateTime']),
+      startDateTime: map['startDateTime'],
+      endDateTime: map['endDateTime'],
       mechanicName: map['mechanicName'],
       mechanicUid: map['mechanicUid'],
     );

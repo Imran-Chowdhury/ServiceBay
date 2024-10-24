@@ -6,7 +6,7 @@ import '../models/user_model.dart';
 import '../widgets/triangle_clipper.dart';
 import 'admin_calendar_screen.dart';
 import 'booking_screen.dart';
-import 'mechanic_calendar_screen.dart';
+import 'calendar_screen.dart';
 
 
 
@@ -63,9 +63,9 @@ class MechanicHomeScreen extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: width * 0.03),
+                padding: EdgeInsets.only(left: width * 0.02),
                 child: Text(
-                  ' ${authState.role?? 'Role'}',
+                  ' ${authState.role?? 'Role'}'.toUpperCase(),
                   //   // stateController.role!.toUpperCase() ,
                   style: const TextStyle(
                     fontSize: 18,
