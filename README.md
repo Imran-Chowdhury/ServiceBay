@@ -21,6 +21,60 @@ This mobile application was developed as part of a task assignment for **Ichinba
 5. **Appointment Management:**
     - **Appointment List & Details**: Admins and mechanics can view a list of appointments and delve into appointment details to track the status or any special requirements.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/splash.jpeg" alt="Splash Screen" width="200" height="400"/>
+      <p style="text-align:center">Splash Screen</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/signIn.jpeg" alt="Sign In" width="200" height="400"/>
+      <p style="text-align:center">Sign In</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/signUp.jpeg" alt="Sign Up" width="200" height="400"/>
+      <p style="text-align:center">Sign Up</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/adminHome.jpeg" alt="Admin Home" width="200" height="400"/>
+      <p style="text-align:center">Admin Home</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/mechanicHome.jpeg" alt="Mechanic Home" width="200" height="400"/>
+      <p style="text-align:center">Mechanic Home</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/bookingForm.jpeg" alt="Booking Form" width="200" height="400"/>
+      <p style="text-align:center">Booking Form</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/calendarViewAdmin.jpeg" alt="Admin Calendar View" width="200" height="400"/>
+      <p style="text-align:center">Admin Calendar View</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/calendarViewMechanic.jpeg" alt="Mechanic Calendar View" width="200" height="400"/>
+      <p style="text-align:center">Mechanic Calendar View</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align:center">
+      <img src="screenshots/appointmentlist.jpeg" alt="Appointment List" width="200" height="400"/>
+      <p style="text-align:center">Appointment List</p>
+    </td>
+    <td style="text-align:center">
+      <img src="screenshots/appointmentDetails.jpeg" alt="Appointment Details" width="200" height="400"/>
+      <p style="text-align:center">Appointment Details</p>
+    </td>
+  </tr>
+</table>
+
+
+
+
 ## Installation Instructions
 
 ### Prerequisites
@@ -39,7 +93,7 @@ This mobile application was developed as part of a task assignment for **Ichinba
    ```bash
    flutter pub get
 
-### 4. Set Up Firebase:
+### Set Up Firebase:
 
 1. **Create a Firebase project** and configure it with your app:
    - Go to the [Firebase Console](https://console.firebase.google.com/).
