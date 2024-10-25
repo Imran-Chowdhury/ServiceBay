@@ -32,9 +32,28 @@ This mobile application was developed as part of a task assignment for **Ichinba
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/Imran-Chowdhury/ServiceBay
-2**Navigate to the Project Directory:**
+2. **Navigate to the Project Directory:**
    ```bash
    cd ServiceBay
+3. **Install Dependencies: Ensure you have all the required Flutter dependencies installed**
+   ```bash
+   flutter pub get
 
-   
+### 4. Set Up Firebase:
 
+1. **Create a Firebase project** and configure it with your app:
+   - Go to the [Firebase Console](https://console.firebase.google.com/).
+   - Click on "Add Project" and follow the instructions to create a new Firebase project.
+
+2. **Add `google-services.json` to the app**:
+   - In the Firebase Console, select your project.
+   - Navigate to "Project Settings" and click on "Android" or "ios" to add respective apps.
+   - Then follow the instructions given by firebase.
+
+3. **Enable Firebase Authentication**:
+   - In the Firebase Console, go to "Authentication" from the left sidebar.
+   - Click on "Sign-in method" and enable the required authentication methods (e.g., Email/Password).
+
+4. **Enable Firestore**:
+   - In the Firebase Console, go to "Firestore Database" from the left sidebar.
+   - Click "Create Database" and follow the instructions to set up Firestore in production or test mode.
