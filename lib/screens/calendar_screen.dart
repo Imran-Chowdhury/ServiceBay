@@ -38,7 +38,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     final viewState = ref.watch(calendarControllerProvider); // Listen to state changes for rebuilding the UI
 
     return Scaffold(
-      // drawer: const CustomDrawer(),
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         backgroundColor: const Color(0XFFd71e23),
         iconTheme: const IconThemeData(

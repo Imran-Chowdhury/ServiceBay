@@ -169,7 +169,7 @@ class AuthController extends StateNotifier<AuthState> {
     String currentUserEmail = '';
     String currentUserUid = '';
 
-   
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Try to get the stored profile data
