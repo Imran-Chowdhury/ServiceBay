@@ -31,7 +31,10 @@ This mobile application was developed as part of a task assignment for **Ichinba
 ### Steps to Install
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/ichinban-auto-app.git
+   git clone https://github.com/Imran-Chowdhury/ServiceBay
 2**Navigate to the Project Directory:**
-   cd ichinban-auto-app
+   ```bash
+   cd ServiceBay
+
+   
 
