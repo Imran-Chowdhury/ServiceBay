@@ -1,16 +1,37 @@
-# service_bay
+# ServiceBay
 
-A new Flutter project.
+This mobile application was developed as part of a task assignment for **Ichinban Auto Limited**. The app is designed to streamline car workshop management by allowing admins and mechanics to manage bookings, view calendars, and handle appointments efficiently.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+1. **User Authentication:**
+    - **Sign In/Sign Up**: Secure authentication system with Firebase, enabling users (admin and mechanic) to sign in or sign up based on their role.
 
-A few resources to get you started if this is your first Flutter project:
+2. **Role-based Access:**
+    - **Admin Home**: Admin users can view all bookings, manage appointments, and view a calendar of scheduled bookings.
+    - **Mechanic Home**: Mechanics can access their individual calendar and appointments assigned to them.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. **Booking Creation:**
+    - **Booking Form**: Allows users to create and manage service bookings, including details about the car and customer requirements.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. **Calendar View:**
+    - **Admin Calendar**: Displays a comprehensive view of all bookings for the admin.
+    - **Mechanic Calendar**: Shows the mechanic's individual bookings and scheduled appointments.
+
+5. **Appointment Management:**
+    - **Appointment List & Details**: Admins and mechanics can view a list of appointments and delve into appointment details to track the status or any special requirements.
+
+## Installation Instructions
+
+### Prerequisites
+- Flutter SDK (Version 3.0 or later)
+- Firebase project setup (for authentication and Firestore)
+- Android Studio or VSCode for development and testing
+
+### Steps to Install
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/ichinban-auto-app.git
+2**Navigate to the Project Directory:**
+   cd ichinban-auto-app
+
