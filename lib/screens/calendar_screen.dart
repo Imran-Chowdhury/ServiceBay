@@ -60,6 +60,13 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
           return SfCalendar(
             key: ValueKey(viewState),
             view: viewState, // Bind the calendar view to the current state
+            showDatePickerButton: true, // Enables the month/year picker
+            initialSelectedDate: DateTime.now(),
+            // monthViewSettings: MonthViewSettings(
+            //   navigationDirection: MonthNavigationDirection.vertical,
+            //   showTrailingAndLeadingDates: true,
+            // ),
+
 
 
             onTap: (CalendarTapDetails details) {
@@ -70,7 +77,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      backgroundColor:const Color(0XFFdbcfd0),
+                      // backgroundColor:const Color(0XFFdbcfd0),
                       // backgroundColor: Color(0xFFF5F5DC),
 
                       title: Text(DateFormat('yyyy-MM-dd').format(details.date!),

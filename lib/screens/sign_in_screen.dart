@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:service_bay/controllers/obscure_contoller.dart';
 import 'package:service_bay/screens/sign_up_screen.dart';
 import '../controllers/auth_controller.dart';
 import '../utils/validator.dart';
@@ -22,24 +23,34 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   void signIn() async {
     if (_formKey.currentState!.validate()) {
-      try {
-        await ref.read(authControllerProvider.notifier).signIn(emailController.text.trim(), passwordController.text.trim(),context);
-        // await ref.read(authControllerProvider.notifier).signIn(email, password);
 
-      } catch (e) {
-        print(e);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          // content: Text(e.toString()),
-
-          content: Text('Eikhan theke error'),
-        ));
-      }
+      await ref.read(authControllerProvider.notifier).signIn(emailController.text.trim(), passwordController.text.trim(),context);
+      // try {
+      //
+      //   // await ref.read(authControllerProvider.notifier).signIn(email, password);
+      //
+      // } catch (e) {
+      //   print(e);
+      //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //     // content: Text(e.toString()),
+      //
+      //     content: Text('Eikhan theke'),
+      //   ));
+      // }
     }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider).isLoading;
+    final visibleState = ref.watch(obscureControllerProvider);
 
     Size size = MediaQuery.sizeOf(context);
     double height = size.height;
@@ -103,7 +114,15 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     CustomTextField(
                       controller: passwordController,
                       labelText: 'Password',
+                      obscureText: visibleState,
                       validate: Validator.passwordValidator,
+                      obscureIcon: IconButton(
+                        icon: Icon(visibleState ?  Icons.visibility_off:Icons.visibility),
+                        onPressed: () {
+                          // Toggle visibility state here
+                         ref.watch(obscureControllerProvider.notifier).changeVisibility();
+                        },
+                      ),
                     ),
                     SizedBox(height: height * 0.02),
 

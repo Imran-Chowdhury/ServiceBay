@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/auth_controller.dart';
+import '../controllers/obscure_contoller.dart';
 import '../utils/validator.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
@@ -71,10 +72,21 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       }
     }
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(authControllerProvider).isLoading;
+    final visibleState = ref.watch(obscureControllerProvider);
+    final confirmVisibleState = ref.watch(confirmPasswordVisibilityProvider);
 
     Size size = MediaQuery.sizeOf(context);
     double height = size.height;
@@ -147,14 +159,30 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         CustomTextField(
                           controller: passwordController,
                           labelText: 'Password',
+                          obscureText: visibleState,
                           validate: Validator.passwordValidator,
+                          obscureIcon: IconButton(
+                            icon: Icon(visibleState ?  Icons.visibility_off:Icons.visibility),
+                            onPressed: () {
+                              // Toggle visibility state here
+                              ref.watch(obscureControllerProvider.notifier).changeVisibility();
+                            },
+                          ),
                         ),
                         SizedBox(height: height * 0.03),
 
                         CustomTextField(
                           controller: confirmPasswordController,
                           labelText: 'Confirm Password',
+                          obscureText: confirmVisibleState,
                           validate: Validator.confirmPasswordValidator,
+                          obscureIcon: IconButton(
+                            icon: Icon(confirmVisibleState ?  Icons.visibility_off:Icons.visibility),
+                            onPressed: () {
+                              // Toggle visibility state here
+                              ref.watch(confirmPasswordVisibilityProvider.notifier).changeVisibility();
+                            },
+                          ),
                         ),
 
                         Row(

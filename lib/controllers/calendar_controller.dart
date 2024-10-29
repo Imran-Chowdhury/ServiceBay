@@ -26,14 +26,6 @@ class CalendarController extends StateNotifier<CalendarView>{
     }
   }
 
-// void changeViewToMonth(){
-//   state = CalendarView.month;
-// }
 
-
-
-// void changeViewToWeek(){
-//   state = CalendarView.week;
-// }
 
 }

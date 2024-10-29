@@ -82,6 +82,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
     // final mechanicsList = ref.watch(mechanicsProvider);
@@ -105,12 +106,13 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         child: Stack(
           children: [
             Container(
-                height: height*.3,
+                height: height*.2,
                 width: double.infinity,
 
                 decoration: BoxDecoration(
-                    color: Color(0XFFd71e23),
-                    borderRadius: BorderRadius.only(bottomLeft:  Radius.circular(width*.09), bottomRight: Radius.circular(width*.09))
+                    color: const Color(0XFFd71e23),
+                    borderRadius: BorderRadius.only(bottomLeft:  Radius.circular(width*.09),
+                        bottomRight: Radius.circular(width*.09))
                 )
             ),
             Column(
@@ -127,7 +129,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 //     height: height * 0.3,
                 //   ),
                 // ),
-                SizedBox(height: height * 0.06),
+                SizedBox(height: height * 0.02),
                 Text(
                   ' Booking Form',
                   style: TextStyle(
@@ -136,7 +138,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     color: Colors.white
                   ),
                 ),
-                SizedBox(height: height * 0.03),
+                SizedBox(height: height * 0.06),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
@@ -274,6 +276,11 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                   mechanicUid: _selectedMechanic!,
                                   context: context// Mechanic UID
                               );
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text(
+                                    'All fields are required!'),
+                              ));
                             }
 
                           },

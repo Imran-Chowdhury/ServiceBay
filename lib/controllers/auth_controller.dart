@@ -155,10 +155,10 @@ class AuthController extends StateNotifier<AuthState> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //   content: Text(
-      //       'Failed to sign in! Please check your email and password'),
-      // ));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            'Failed to sign in! Please check your email and password'),
+      ));
       throw Exception(e.toString());
     }
   }
@@ -196,9 +196,10 @@ class AuthController extends StateNotifier<AuthState> {
       Navigator.pushReplacementNamed(context, '/home');
     }else {
       // No user signed in, navigate to SignInScreen
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => SignInScreen(),
-      ));
+      Navigator.pushReplacementNamed(context, '/signIn');
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //   builder: (context) => SignInScreen(),
+      // ));
     }
 
 
